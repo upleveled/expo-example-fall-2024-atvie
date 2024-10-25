@@ -16,6 +16,7 @@
     "@expo/server": "0.4.4-canary-20240628-1ba8152",
     "@expo/vector-icons": "^14.0.4",
     "@upleveled/ley": "^0.9.2",
+    "bcryptjs": "^2.4.3",
     "dotenv-safe": "^9.1.0",
     "expo": "~51.0.28",
     "expo-build-properties": "^0.12.5",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@ts-safeql/eslint-plugin": "^3.4.7",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^22.7.9",
     "@types/react": "~18.2.45",
     "eslint": "^9.13.0",
