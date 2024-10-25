@@ -8,7 +8,7 @@ import {
   userSchema,
 } from '../../../migrations/00001-createTableUsers';
 
-export type UserResponseBodyPost =
+export type RegisterResponseBodyPost =
   | {
       user: { username: User['username'] };
     }
@@ -16,7 +16,7 @@ export type UserResponseBodyPost =
 
 export async function POST(
   request: Request,
-): Promise<ExpoApiResponse<UserResponseBodyPost>> {
+): Promise<ExpoApiResponse<RegisterResponseBodyPost>> {
   // Task: Implement the user registration workflow with session
 
   // 1. Get the user data from the request

@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { UserResponseBodyPost } from './api/register+api';
+import type { RegisterResponseBodyPost } from './api/register+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -131,7 +131,7 @@ export default function Register() {
             return;
           }
 
-          const responseBody: UserResponseBodyPost = await response.json();
+          const responseBody: RegisterResponseBodyPost = await response.json();
 
           if ('error' in responseBody) {
             Alert.alert('Error', responseBody.error, [{ text: 'OK' }]);
