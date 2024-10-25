@@ -138,11 +138,15 @@ export default function Register() {
             return;
           }
 
-          console.log(`User ${responseBody.user.username} created!`);
+          Alert.alert(
+            'Success',
+            `User ${responseBody.user.username} created!`,
+            [{ text: 'OK' }],
+          );
 
           setUsername('');
           setPassword('');
-          router.push('/(auth)');
+          router.push('/(tabs)');
         }}
       >
         <Text style={styles.text}>Register</Text>
