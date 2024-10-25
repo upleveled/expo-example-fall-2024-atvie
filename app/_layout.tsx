@@ -38,6 +38,7 @@ export default function HomeLayout() {
       <StatusBar style="light" />
       <View style={styles.view}>
         <Stack>
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
             name="guests/[guestId]"
