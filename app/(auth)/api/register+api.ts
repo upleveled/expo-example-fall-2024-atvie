@@ -36,6 +36,7 @@ export async function POST(
       },
     );
   }
+
   // 3. Check if user already exist in the database
   const user = await getUserInsecure(result.data.username);
 
