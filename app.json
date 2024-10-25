@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "expo-example-fall-2024-atvie",
+    "slug": "expo-example-fall-2024-atvie",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "scheme": "expo-example-fall-2024-atvie",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.noxi.expoexamplefall2024atvie"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "server"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2b69de52-e4e8-40ea-ae0e-cfbc1e9c7a67"
+      }
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "newArchEnabled": true
+          },
+          "android": {
+            "newArchEnabled": true
+          }
+        }
+      ],
+      [
+        "expo-router",
+        {
+          "origin": "https://expo-test-bice.vercel.app"
+        }
+      ]
+    ]
+  }
+}
