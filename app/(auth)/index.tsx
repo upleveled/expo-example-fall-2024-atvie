@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
+import type { LoginResponseBodyPost } from './api/login+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -130,9 +131,22 @@ export default function Login() {
             return;
           }
 
+          const responseBody: LoginResponseBodyPost = await response.json();
+
+          if ('error' in responseBody) {
+            Alert.alert('Error', responseBody.error, [{ text: 'OK' }]);
+            return;
+          }
+
+          Alert.alert(
+            'Success',
+            `User ${responseBody.user.username} logged in!`,
+            [{ text: 'OK' }],
+          );
+
           setUsername('');
           setPassword('');
-          router.push('/');
+          router.push('/(tabs)');
         }}
       >
         <Text style={styles.text}>Login</Text>
