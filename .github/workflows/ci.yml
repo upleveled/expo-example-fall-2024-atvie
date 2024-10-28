@@ -57,6 +57,7 @@ jobs:
             exit 1
           fi
           kill $expo_pid
+
       - name: Check TypeScript Types
         run: pnpm tsc
 
