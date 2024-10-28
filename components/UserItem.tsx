@@ -18,11 +18,14 @@ const styles = StyleSheet.create({
 
 type Props = {
   user: {
-    name: string;
+    name: {
+      first: string;
+      last: string;
+    };
   };
 };
 
-export default function UserItem({ user }) {
+export default function UserItem({ user }: Props) {
   const { name } = user;
 
   console.log(user);

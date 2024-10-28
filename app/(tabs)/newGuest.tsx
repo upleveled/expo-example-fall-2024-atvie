@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
+import type { GuestsResponseBodyPost } from '../api/guests+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -106,7 +107,7 @@ export default function NewGuest() {
 
           if (!response.ok) {
             let errorMessage = 'Error creating guest';
-            const body = await response.json();
+            const body: GuestsResponseBodyPost = await response.json();
 
             if ('error' in body) {
               errorMessage = body.error;

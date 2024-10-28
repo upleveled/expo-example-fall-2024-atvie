@@ -116,7 +116,7 @@ export default function GuestPage() {
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
   // Dynamic import of images
-  const imageContext = require.context('../../assets', false, /\.(avif)$/);
+  // const imageContext = require.context('../../assets', false, /\.(avif)$/);
 
   useFocusEffect(
     useCallback(() => {
