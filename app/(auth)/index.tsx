@@ -1,5 +1,5 @@
-import { Link, router } from 'expo-router';
-import { useState } from 'react';
+import { Link, router, useFocusEffect } from 'expo-router';
+import { useCallback, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { LoginResponseBodyPost } from './api/login+api';
+import type { LoginResponseBodyPost } from '../api/login+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -77,6 +77,24 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
+  useFocusEffect(
+    useCallback(() => {
+      async function getUser() {
+        const response = await fetch('/api/user');
+
+        const data = await response.json();
+
+        if ('username' in data) {
+          router.push('/(tabs)/guests');
+        }
+      }
+
+      getUser().catch((error) => {
+        console.error(error);
+      });
+    }, []),
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.loginInputContainer}>
@@ -120,12 +138,10 @@ export default function Login() {
 
           if (!response.ok) {
             let errorMessage = 'Error logging in';
-            try {
-              const responseBody = await response.json();
-              if ('error' in responseBody) {
-                errorMessage = responseBody.error;
-              }
-            } catch {}
+            const responseBody: LoginResponseBodyPost = await response.json();
+            if ('error' in responseBody) {
+              errorMessage = responseBody.error;
+            }
 
             Alert.alert('Error', errorMessage, [{ text: 'OK' }]);
             return;
@@ -138,15 +154,9 @@ export default function Login() {
             return;
           }
 
-          Alert.alert(
-            'Success',
-            `User ${responseBody.user.username} logged in!`,
-            [{ text: 'OK' }],
-          );
-
           setUsername('');
           setPassword('');
-          router.push('/(tabs)');
+          router.push('/(tabs)/guests');
         }}
       >
         <Text style={styles.text}>Login</Text>

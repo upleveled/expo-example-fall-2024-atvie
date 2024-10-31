@@ -1,12 +1,10 @@
 import crypto from 'node:crypto';
 import bcryptJs from 'bcryptjs';
-import { createSessionInsecure } from '../../../database/sessions';
-import { getUserWithPasswordHashInsecure } from '../../../database/users';
-import { ExpoApiResponse } from '../../../ExpoApiResponse';
-import {
-  type User,
-  userSchema,
-} from '../../../migrations/00001-createTableUsers';
+import { createSessionInsecure } from '../../database/sessions';
+import { getUserWithPasswordHashInsecure } from '../../database/users';
+import { ExpoApiResponse } from '../../ExpoApiResponse';
+import { type User, userSchema } from '../../migrations/00001-createTableUsers';
+import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 
 export type LoginResponseBodyPost =
   | {
@@ -44,7 +42,9 @@ export async function POST(
 
   if (!userWithPasswordHash) {
     return ExpoApiResponse.json(
-      { error: 'username or password not valid' },
+      {
+        error: 'username or password not valid',
+      },
       {
         status: 401,
       },
@@ -59,7 +59,9 @@ export async function POST(
 
   if (!passwordHash) {
     return ExpoApiResponse.json(
-      { error: 'username or password not valid' },
+      {
+        error: 'username or password not valid',
+      },
       {
         status: 401,
       },
@@ -73,12 +75,18 @@ export async function POST(
 
   if (!session) {
     return ExpoApiResponse.json(
-      { error: 'Sessions creation failed' },
+      {
+        error: 'Sessions creation failed',
+      },
       {
         status: 401,
       },
     );
   }
+
+  const serializedCookie = createSerializedRegisterSessionTokenCookie(
+    session.token,
+  );
 
   return ExpoApiResponse.json(
     {
@@ -89,7 +97,7 @@ export async function POST(
     {
       // 8. Send the new cookie in the headers
       headers: {
-        'Set-Cookie': `sessionToken=${session.token}; HttpOnly; Path=/; SameSite=lax; Max-Age=86400; Secure`,
+        'Set-Cookie': serializedCookie,
       },
     },
   );

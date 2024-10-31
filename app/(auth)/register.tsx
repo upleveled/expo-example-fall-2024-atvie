@@ -1,5 +1,5 @@
-import { Link, router } from 'expo-router';
-import { useState } from 'react';
+import { Link, router, useFocusEffect } from 'expo-router';
+import { useCallback, useState } from 'react';
 import {
   Alert,
   Pressable,
@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { RegisterResponseBodyPost } from './api/register+api';
+import type { RegisterResponseBodyPost } from '../api/register+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -77,6 +77,24 @@ export default function Register() {
   const [password, setPassword] = useState('');
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
+  useFocusEffect(
+    useCallback(() => {
+      async function getUser() {
+        const response = await fetch('/api/user');
+
+        const data = await response.json();
+
+        if ('username' in data) {
+          router.push('/(tabs)/guests');
+        }
+      }
+
+      getUser().catch((error) => {
+        console.error(error);
+      });
+    }, []),
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.registerInputContainer}>
@@ -121,7 +139,8 @@ export default function Register() {
           if (!response.ok) {
             let errorMessage = 'Error creating user';
             try {
-              const responseBody = await response.json();
+              const responseBody: RegisterResponseBodyPost =
+                await response.json();
               if ('error' in responseBody) {
                 errorMessage = responseBody.error;
               }
@@ -137,12 +156,6 @@ export default function Register() {
             Alert.alert('Error', responseBody.error, [{ text: 'OK' }]);
             return;
           }
-
-          Alert.alert(
-            'Success',
-            `User ${responseBody.user.username} created!`,
-            [{ text: 'OK' }],
-          );
 
           setUsername('');
           setPassword('');

@@ -52,6 +52,42 @@ export default function HomeLayout() {
               },
             }}
           />
+          <Stack.Screen
+            name="notes/[noteId]"
+            options={{
+              presentation: 'modal',
+              title: '',
+              animation: 'slide_from_bottom',
+              headerTintColor: colors.text,
+              headerStyle: {
+                backgroundColor: colors.background,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="guests/newGuest"
+            options={{
+              presentation: 'modal',
+              title: '',
+              animation: 'slide_from_bottom',
+              headerTintColor: colors.text,
+              headerStyle: {
+                backgroundColor: colors.background,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="notes/newNote"
+            options={{
+              presentation: 'modal',
+              title: '',
+              animation: 'slide_from_bottom',
+              headerTintColor: colors.text,
+              headerStyle: {
+                backgroundColor: colors.background,
+              },
+            }}
+          />
         </Stack>
       </View>
     </SafeAreaView>

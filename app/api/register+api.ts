@@ -1,12 +1,10 @@
 import crypto from 'node:crypto';
 import bcryptJs from 'bcryptjs';
-import { createSessionInsecure } from '../../../database/sessions';
-import { createUserInsecure, getUserInsecure } from '../../../database/users';
-import { ExpoApiResponse } from '../../../ExpoApiResponse';
-import {
-  type User,
-  userSchema,
-} from '../../../migrations/00001-createTableUsers';
+import { createSessionInsecure } from '../../database/sessions';
+import { createUserInsecure, getUserInsecure } from '../../database/users';
+import { ExpoApiResponse } from '../../ExpoApiResponse';
+import { type User, userSchema } from '../../migrations/00001-createTableUsers';
+import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
 
 export type RegisterResponseBodyPost =
   | {
@@ -79,6 +77,10 @@ export async function POST(
     );
   }
 
+  const serializedCookie = createSerializedRegisterSessionTokenCookie(
+    session.token,
+  );
+
   return ExpoApiResponse.json(
     {
       user: {
@@ -88,7 +90,7 @@ export async function POST(
     {
       // 8. Send the new cookie in the headers
       headers: {
-        'Set-Cookie': `sessionToken=${session.token}; HttpOnly; Path=/; SameSite=lax; Max-Age=86400; Secure`,
+        'Set-Cookie': serializedCookie,
       },
     },
   );

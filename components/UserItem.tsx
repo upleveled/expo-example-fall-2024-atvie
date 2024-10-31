@@ -28,8 +28,6 @@ type Props = {
 export default function UserItem({ user }: Props) {
   const { name } = user;
 
-  console.log(user);
-
   return (
     <View style={styles.card}>
       <Text style={styles.text}>

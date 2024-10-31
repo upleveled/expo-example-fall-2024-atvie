@@ -119,7 +119,7 @@ export default function NewGuest() {
 
           setFirstName('');
           setLastName('');
-          router.push('/');
+          router.replace('/(tabs)/guests');
         }}
       >
         <Text style={styles.text}>Add Guest</Text>
