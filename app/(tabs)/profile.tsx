@@ -1,5 +1,5 @@
 import { router, useFocusEffect } from 'expo-router';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../constants/colors';
 import type { LogoutResponseBodyGet } from '../api/logout+api';
@@ -37,8 +37,6 @@ const styles = StyleSheet.create({
 });
 
 export default function ProfileScreen() {
-  const [user, setUser] = useState();
-
   useFocusEffect(
     useCallback(() => {
       async function getUser() {
@@ -48,20 +46,13 @@ export default function ProfileScreen() {
 
         if ('error' in body) {
           Alert.alert('Error', body.error, [{ text: 'OK' }]);
-          return;
+          return router.push('/(auth)');
         }
 
-        if (!body) {
-          router.push('/(auth)');
-          return;
-        }
-
-        setUser(body);
+        getUser().catch((error) => {
+          console.error(error);
+        });
       }
-
-      getUser().catch((error) => {
-        console.error(error);
-      });
     }, []),
   );
 
