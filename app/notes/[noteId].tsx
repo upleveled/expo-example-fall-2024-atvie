@@ -1,4 +1,4 @@
-import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../constants/colors';
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     color: colors.text,
     textAlign: 'center',
   },
-  content: {
+  textContent: {
     fontSize: 16,
     fontFamily: 'Poppins_400Regular',
     color: colors.textSecondary,
@@ -67,7 +67,7 @@ export default function NotePage() {
     <View style={styles.container}>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.content}>{textContent}</Text>
+        <Text style={styles.textContent}>{textContent}</Text>
       </View>
     </View>
   );

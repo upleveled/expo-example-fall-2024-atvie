@@ -5,10 +5,6 @@ import { colors } from '../../constants/colors';
 import type { LogoutResponseBodyGet } from '../api/logout+api';
 import type { UserResponseBodyGet } from '../api/user+api';
 
-// type Props = {
-//   user: User;
-// };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -48,11 +44,10 @@ export default function ProfileScreen() {
           Alert.alert('Error', body.error, [{ text: 'OK' }]);
           return router.push('/(auth)');
         }
-
-        getUser().catch((error) => {
-          console.error(error);
-        });
       }
+      getUser().catch((error) => {
+        console.error(error);
+      });
     }, []),
   );
 
