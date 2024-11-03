@@ -62,11 +62,7 @@ export default function Notes() {
         setIsStale(false);
       }
 
-      getUser().catch((error) => {
-        console.error(error);
-      });
-
-      getNotes().catch((error) => {
+      Promise.all([getUser(), getNotes()]).catch((error) => {
         console.error(error);
       });
     }, [isStale, router]),
