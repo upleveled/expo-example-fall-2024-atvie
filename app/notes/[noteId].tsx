@@ -1,7 +1,8 @@
-import { useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { Link, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../constants/colors';
+import type { Note } from '../../migrations/00003-createTableNotes';
 import type { NoteResponseBodyGet } from '../api/notes/[noteId]+api';
 
 const styles = StyleSheet.create({
@@ -33,9 +34,7 @@ const styles = StyleSheet.create({
 
 export default function NotePage() {
   const { noteId } = useLocalSearchParams();
-
-  const [title, setTitle] = useState('');
-  const [textContent, setTextContent] = useState('');
+  const [note, setNote] = useState<Note | null>(null);
 
   useFocusEffect(
     useCallback(() => {
@@ -48,8 +47,7 @@ export default function NotePage() {
         const responseBody: NoteResponseBodyGet = await response.json();
 
         if ('note' in responseBody) {
-          setTitle(responseBody.note.title);
-          setTextContent(responseBody.note.textContent);
+          setNote(responseBody.note);
         }
       }
 
@@ -63,11 +61,25 @@ export default function NotePage() {
     return null;
   }
 
+  if (!note) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Access Denied</Text>
+        <Text style={styles.textContent}>
+          You do not have permission to access this note
+        </Text>
+        <Link href="/(tabs)/notes" style={{ color: colors.text }}>
+          Back to notes
+        </Link>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.textContent}>{textContent}</Text>
+        <Text style={styles.title}>{note.title}</Text>
+        <Text style={styles.textContent}>{note.textContent}</Text>
       </View>
     </View>
   );
