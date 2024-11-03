@@ -5,7 +5,7 @@ import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import GuestItem from '../../components/GuestItem';
 import { colors } from '../../constants/colors';
 import type { Guest } from '../../migrations/00000-createTableGuests';
-import type { GuestsResponseBodyGet } from '../api/guests+api';
+import type { GuestsResponseBodyGet } from '../api/guests/guests+api';
 import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
@@ -26,18 +26,13 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
   });
-  const [isStale, setIsStale] = useState(true);
 
   // const renderItem = (item: { item: User }) => <UserItem user={item.item} />;
 
-  const renderItem = (item: { item: Guest }) => (
-    <GuestItem guest={item.item} setIsStale={setIsStale} />
-  );
+  const renderItem = (item: { item: Guest }) => <GuestItem guest={item.item} />;
 
   useFocusEffect(
     useCallback(() => {
-      if (!isStale) return;
-
       async function getUser() {
         const response = await fetch('/api/user');
 
@@ -49,11 +44,10 @@ export default function App() {
       }
 
       async function getGuests() {
-        const response = await fetch('/api/guests');
+        const response = await fetch('/api/guests/guests');
         const body: GuestsResponseBodyGet = await response.json();
 
         setGuests(body.guests);
-        setIsStale(false);
       }
 
       getUser().catch((error) => {
@@ -63,7 +57,7 @@ export default function App() {
       getGuests().catch((error) => {
         console.error(error);
       });
-    }, [isStale]),
+    }, []),
   );
 
   if (!fontsLoaded) {

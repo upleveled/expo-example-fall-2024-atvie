@@ -16,7 +16,6 @@ export async function GET(
   request: Request,
 ): Promise<ExpoApiResponse<UserResponseBodyGet>> {
   // 1. get the session token from the cookie
-
   const cookies = parse(request.headers.get('cookie') || '');
   const token = cookies.sessionToken;
 

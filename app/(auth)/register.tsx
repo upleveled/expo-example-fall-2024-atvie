@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { RegisterResponseBodyPost } from '../api/register+api';
+import type { RegisterResponseBodyPost } from './api/register+api';
 
 const styles = StyleSheet.create({
   container: {

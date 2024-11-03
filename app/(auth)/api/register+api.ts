@@ -1,10 +1,13 @@
 import crypto from 'node:crypto';
 import bcryptJs from 'bcryptjs';
-import { createSessionInsecure } from '../../database/sessions';
-import { createUserInsecure, getUserInsecure } from '../../database/users';
-import { ExpoApiResponse } from '../../ExpoApiResponse';
-import { type User, userSchema } from '../../migrations/00001-createTableUsers';
-import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+import { createSessionInsecure } from '../../../database/sessions';
+import { createUserInsecure, getUserInsecure } from '../../../database/users';
+import { ExpoApiResponse } from '../../../ExpoApiResponse';
+import {
+  type User,
+  userSchema,
+} from '../../../migrations/00001-createTableUsers';
+import { createSerializedRegisterSessionTokenCookie } from '../../../util/cookies';
 
 export type RegisterResponseBodyPost =
   | {
@@ -40,7 +43,9 @@ export async function POST(
 
   if (user) {
     return ExpoApiResponse.json(
-      { error: 'Username already taken' },
+      {
+        error: 'Username already taken',
+      },
       {
         status: 401,
       },
@@ -55,7 +60,9 @@ export async function POST(
 
   if (!newUser) {
     return ExpoApiResponse.json(
-      { error: 'Registration failed' },
+      {
+        error: 'Registration failed',
+      },
       {
         status: 500,
       },
@@ -70,7 +77,9 @@ export async function POST(
 
   if (!session) {
     return ExpoApiResponse.json(
-      { error: 'Sessions creation failed' },
+      {
+        error: 'Sessions creation failed',
+      },
       {
         status: 401,
       },

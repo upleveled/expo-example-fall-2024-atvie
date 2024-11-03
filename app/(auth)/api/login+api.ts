@@ -1,10 +1,13 @@
 import crypto from 'node:crypto';
 import bcryptJs from 'bcryptjs';
-import { createSessionInsecure } from '../../database/sessions';
-import { getUserWithPasswordHashInsecure } from '../../database/users';
-import { ExpoApiResponse } from '../../ExpoApiResponse';
-import { type User, userSchema } from '../../migrations/00001-createTableUsers';
-import { createSerializedRegisterSessionTokenCookie } from '../../util/cookies';
+import { createSessionInsecure } from '../../../database/sessions';
+import { getUserWithPasswordHashInsecure } from '../../../database/users';
+import { ExpoApiResponse } from '../../../ExpoApiResponse';
+import {
+  type User,
+  userSchema,
+} from '../../../migrations/00001-createTableUsers';
+import { createSerializedRegisterSessionTokenCookie } from '../../../util/cookies';
 
 export type LoginResponseBodyPost =
   | {
@@ -35,7 +38,7 @@ export async function POST(
     );
   }
 
-  // 3. verify the user credentials
+  // 3. Verify the user credentials
   const userWithPasswordHash = await getUserWithPasswordHashInsecure(
     result.data.username,
   );

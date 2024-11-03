@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import placeholder from '../../assets/candidate-default.avif';
 import { colors } from '../../constants/colors';
-import type { GuestResponseBodyGet } from '../api/[guestId]+api';
+import type { GuestResponseBodyGet } from '../api/guests/[guestId]+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -125,13 +125,13 @@ export default function GuestPage() {
           return;
         }
 
-        const response = await fetch(`/api/${guestId}`);
-        const body: GuestResponseBodyGet = await response.json();
+        const response = await fetch(`/api/guests/${guestId}`);
+        const responseBody: GuestResponseBodyGet = await response.json();
 
-        if ('guest' in body) {
-          setFirstName(body.guest.firstName);
-          setLastName(body.guest.lastName);
-          setAttending(body.guest.attending);
+        if ('guest' in responseBody) {
+          setFirstName(responseBody.guest.firstName);
+          setLastName(responseBody.guest.lastName);
+          setAttending(responseBody.guest.attending);
         }
       }
 
@@ -195,7 +195,7 @@ export default function GuestPage() {
               { opacity: pressed ? 0.5 : 1 },
             ]}
             onPress={async () => {
-              await fetch(`/api/${guestId}`, {
+              await fetch(`/api/guests/${guestId}`, {
                 method: 'PUT',
                 body: JSON.stringify({
                   firstName,
@@ -224,7 +224,7 @@ export default function GuestPage() {
             <Switch
               value={attending}
               onValueChange={async () => {
-                await fetch(`/api/${guestId}`, {
+                await fetch(`/api/guests/${guestId}`, {
                   method: 'PUT',
                   body: JSON.stringify({
                     firstName: firstName,
@@ -249,7 +249,7 @@ export default function GuestPage() {
             <Pressable
               style={styles.icon}
               onPress={async () => {
-                await fetch(`/api/${guestId}`, {
+                await fetch(`/api/guests/${guestId}`, {
                   method: 'DELETE',
                 });
                 setIsEditing(false);

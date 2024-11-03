@@ -1,8 +1,8 @@
 import { router, useFocusEffect } from 'expo-router';
 import React, { useCallback } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
+import type { LogoutResponseBodyGet } from '../(auth)/api/logout+api';
 import { colors } from '../../constants/colors';
-import type { LogoutResponseBodyGet } from '../api/logout+api';
 import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({

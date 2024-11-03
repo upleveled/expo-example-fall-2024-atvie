@@ -1,7 +1,10 @@
 import { parse } from 'cookie';
-import { createNote, getNotes } from '../../database/notes';
-import { ExpoApiResponse } from '../../ExpoApiResponse';
-import { type Note, noteSchema } from '../../migrations/00003-createTableNotes';
+import { createNote, getNotes } from '../../../database/notes';
+import { ExpoApiResponse } from '../../../ExpoApiResponse';
+import {
+  type Note,
+  noteSchema,
+} from '../../../migrations/00003-createTableNotes';
 
 export type NotesResponseBodyGet =
   | {

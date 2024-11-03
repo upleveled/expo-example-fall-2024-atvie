@@ -2,7 +2,7 @@ import { useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { NoteResponseBodyGet } from '../api/[noteId]+api';
+import type { NoteResponseBodyGet } from '../api/notes/[noteId]+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +44,7 @@ export default function NotePage() {
           return;
         }
 
-        const response = await fetch(`/api/${noteId}`);
+        const response = await fetch(`/api/notes/${noteId}`);
         const body: NoteResponseBodyGet = await response.json();
 
         if ('note' in body) {

@@ -5,7 +5,7 @@ import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import NoteItem from '../../components/NotesItem';
 import { colors } from '../../constants/colors';
 import type { Note } from '../../migrations/00003-createTableNotes';
-import type { NotesResponseBodyGet } from '../api/notes+api';
+import type { NotesResponseBodyGet } from '../api/notes/notes+api';
 import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
@@ -45,7 +45,7 @@ export default function App() {
       }
 
       async function getNotes() {
-        const response = await fetch('/api/notes');
+        const response = await fetch('/api/notes/notes');
         const body: NotesResponseBodyGet = await response.json();
 
         if ('error' in body) {

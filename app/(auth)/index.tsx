@@ -10,7 +10,8 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { LoginResponseBodyPost } from '../api/login+api';
+import type { UserResponseBodyGet } from '../api/user+api';
+import type { LoginResponseBodyPost } from './api/login+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,9 +83,9 @@ export default function Login() {
       async function getUser() {
         const response = await fetch('/api/user');
 
-        const data = await response.json();
+        const responseBody: UserResponseBodyGet = await response.json();
 
-        if ('username' in data) {
+        if ('username' in responseBody) {
           router.push('/(tabs)/guests');
         }
       }

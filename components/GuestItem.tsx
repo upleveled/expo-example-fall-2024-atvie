@@ -62,10 +62,9 @@ const styles = StyleSheet.create({
 
 type Props = {
   guest: Guest;
-  setIsStale: (isStale: boolean) => void;
 };
 
-export default function GuestItem({ guest, setIsStale }: Props) {
+export default function GuestItem({ guest }: Props) {
   const { id, firstName, lastName, attending } = guest;
 
   return (
@@ -102,8 +101,6 @@ export default function GuestItem({ guest, setIsStale }: Props) {
                     attending: !attending,
                   }),
                 });
-
-                setIsStale(true);
               }}
               trackColor={{ false: colors.textSecondary, true: colors.switch }}
               thumbColor={colors.text}
@@ -114,8 +111,6 @@ export default function GuestItem({ guest, setIsStale }: Props) {
                 await fetch(`/api/${id}`, {
                   method: 'DELETE',
                 });
-
-                setIsStale(true);
               }}
             >
               <Ionicons

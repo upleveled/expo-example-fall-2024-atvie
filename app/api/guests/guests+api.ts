@@ -1,9 +1,12 @@
-import { createGuestInsecure, getGuestsInsecure } from '../../database/guests';
-import { ExpoApiResponse } from '../../ExpoApiResponse';
+import {
+  createGuestInsecure,
+  getGuestsInsecure,
+} from '../../../database/guests';
+import { ExpoApiResponse } from '../../../ExpoApiResponse';
 import {
   type Guest,
   guestsSchema,
-} from '../../migrations/00000-createTableGuests';
+} from '../../../migrations/00000-createTableGuests';
 
 export type GuestsResponseBodyGet = {
   guests: Guest[];
