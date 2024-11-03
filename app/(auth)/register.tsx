@@ -82,7 +82,7 @@ export default function Register() {
       async function getUser() {
         const response = await fetch('/api/user');
 
-        const responseBody = await response.json();
+        const responseBody: RegisterResponseBodyPost = await response.json();
 
         if ('username' in responseBody) {
           router.replace('/(tabs)/guests');
