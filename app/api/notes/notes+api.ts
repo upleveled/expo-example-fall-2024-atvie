@@ -24,7 +24,7 @@ export async function GET(
 
   if (!token) {
     return ExpoApiResponse.json({
-      error: 'no session token found',
+      error: 'No session token found',
     });
   }
   const notes = await getNotes(token);
@@ -70,7 +70,7 @@ export async function POST(
 
   if (!token) {
     return ExpoApiResponse.json({
-      error: 'no session token found',
+      error: 'No session token found',
     });
   }
 

@@ -21,7 +21,7 @@ export async function GET(
 
   if (!token) {
     return ExpoApiResponse.json({
-      error: 'no session token found',
+      error: 'No session token found',
     });
   }
 
@@ -30,7 +30,7 @@ export async function GET(
   const user = token && (await getUser(token));
 
   if (!user) {
-    return ExpoApiResponse.json({ error: 'user not found' });
+    return ExpoApiResponse.json({ error: 'User not found' });
   }
 
   // 4. return the user profile

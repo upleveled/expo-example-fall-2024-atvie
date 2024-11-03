@@ -46,7 +46,7 @@ export async function POST(
   if (!userWithPasswordHash) {
     return ExpoApiResponse.json(
       {
-        error: 'username or password not valid',
+        error: 'Username or password not valid',
       },
       {
         status: 401,
@@ -63,7 +63,7 @@ export async function POST(
   if (!passwordHash) {
     return ExpoApiResponse.json(
       {
-        error: 'username or password not valid',
+        error: 'Username or password not valid',
       },
       {
         status: 401,
