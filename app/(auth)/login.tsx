@@ -171,7 +171,11 @@ export default function Login() {
 
           setUsername('');
           setPassword('');
-          router.replace('/(tabs)/guests');
+          if (returnTo && typeof returnTo === 'string') {
+            router.replace(returnTo as Href);
+          } else {
+            router.replace('/(tabs)/guests');
+          }
         }}
       >
         <Text style={styles.text}>Login</Text>
