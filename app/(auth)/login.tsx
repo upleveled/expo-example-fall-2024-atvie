@@ -95,7 +95,7 @@ export default function Login() {
 
         if ('username' in responseBody) {
           if (returnTo && typeof returnTo === 'string') {
-            router.push(`/(tabs)/${returnTo}` as Href);
+            router.push(`/(tabs)${returnTo}` as Href);
           }
 
           router.push('/(tabs)/guests');
