@@ -1,5 +1,5 @@
 import { Poppins_400Regular, useFonts } from '@expo-google-fonts/poppins';
-import { Redirect, useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import GuestItem from '../../components/GuestItem';
@@ -27,6 +27,8 @@ export default function Guests() {
     Poppins_400Regular,
   });
 
+  const router = useRouter();
+
   // const renderItem = (item: { item: User }) => <UserItem user={item.item} />;
 
   const renderItem = (item: { item: Guest }) => <GuestItem guest={item.item} />;
@@ -39,7 +41,7 @@ export default function Guests() {
         const body: UserResponseBodyGet = await response.json();
 
         if ('error' in body) {
-          return <Redirect href="/(auth)/login" />;
+          router.replace('/(auth)/login?returnTo=/guests');
         }
       }
 
@@ -57,7 +59,7 @@ export default function Guests() {
       getGuests().catch((error) => {
         console.error(error);
       });
-    }, []),
+    }, [router]),
   );
 
   if (!fontsLoaded) {
