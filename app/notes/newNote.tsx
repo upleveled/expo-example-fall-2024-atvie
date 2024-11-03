@@ -109,10 +109,10 @@ export default function NewNote() {
 
           if (!response.ok) {
             let errorMessage = 'Error creating guest';
-            const body: GuestsResponseBodyPost = await response.json();
+            const responseBody: GuestsResponseBodyPost = await response.json();
 
-            if ('error' in body) {
-              errorMessage = body.error;
+            if ('error' in responseBody) {
+              errorMessage = responseBody.error;
             }
 
             Alert.alert('Error', errorMessage, [{ text: 'OK' }]);

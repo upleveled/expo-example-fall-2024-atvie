@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
+export default function Guests() {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,

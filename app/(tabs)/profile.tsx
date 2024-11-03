@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ProfileScreen() {
+export default function Profile() {
   useFocusEffect(
     useCallback(() => {
       async function getUser() {

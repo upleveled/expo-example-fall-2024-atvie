@@ -45,11 +45,11 @@ export default function NotePage() {
         }
 
         const response = await fetch(`/api/notes/${noteId}`);
-        const body: NoteResponseBodyGet = await response.json();
+        const responseBody: NoteResponseBodyGet = await response.json();
 
-        if ('note' in body) {
-          setTitle(body.note.title);
-          setTextContent(body.note.textContent);
+        if ('note' in responseBody) {
+          setTitle(responseBody.note.title);
+          setTextContent(responseBody.note.textContent);
         }
       }
 

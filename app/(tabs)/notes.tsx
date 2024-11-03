@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
+export default function Notes() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
