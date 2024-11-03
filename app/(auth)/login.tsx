@@ -1,4 +1,10 @@
-import { Link, router, useFocusEffect } from 'expo-router';
+import {
+  type Href,
+  Link,
+  router,
+  useFocusEffect,
+  useLocalSearchParams,
+} from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
   Alert,
@@ -78,6 +84,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
+  const { returnTo } = useLocalSearchParams<{ returnTo: string }>();
+
   useFocusEffect(
     useCallback(() => {
       async function getUser() {
@@ -86,6 +94,10 @@ export default function Login() {
         const responseBody: UserResponseBodyGet = await response.json();
 
         if ('username' in responseBody) {
+          if (returnTo && typeof returnTo === 'string') {
+            router.push(`/(tabs)/${returnTo}` as Href);
+          }
+
           router.push('/(tabs)/guests');
         }
       }
@@ -93,7 +105,7 @@ export default function Login() {
       getUser().catch((error) => {
         console.error(error);
       });
-    }, []),
+    }, [returnTo]),
   );
 
   return (
