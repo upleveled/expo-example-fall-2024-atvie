@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
 
 export default function Guests() {
   const [guests, setGuests] = useState<Guest[]>([]);
+  const [isStale, setIsStale] = useState(true);
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
   });
@@ -31,10 +32,14 @@ export default function Guests() {
 
   // const renderItem = (item: { item: User }) => <UserItem user={item.item} />;
 
-  const renderItem = (item: { item: Guest }) => <GuestItem guest={item.item} />;
+  const renderItem = (item: { item: Guest }) => (
+    <GuestItem guest={item.item} setIsStale={setIsStale} />
+  );
 
   useFocusEffect(
     useCallback(() => {
+      if (!isStale) return;
+
       async function getUser() {
         const response = await fetch('/api/user');
 
@@ -50,6 +55,7 @@ export default function Guests() {
         const body: GuestsResponseBodyGet = await response.json();
 
         setGuests(body.guests);
+        setIsStale(false);
       }
 
       getUser().catch((error) => {
@@ -59,7 +65,7 @@ export default function Guests() {
       getGuests().catch((error) => {
         console.error(error);
       });
-    }, [router]),
+    }, [router, isStale]),
   );
 
   if (!fontsLoaded) {
