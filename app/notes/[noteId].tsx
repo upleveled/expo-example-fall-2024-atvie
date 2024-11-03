@@ -2,7 +2,7 @@ import { Link, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { Note } from '../../migrations/00003-createTableNotes';
+import type { Note as NoteType } from '../../migrations/00003-createTableNotes';
 import type { NoteResponseBodyGet } from '../api/notes/[noteId]+api';
 
 const styles = StyleSheet.create({
@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function NotePage() {
+export default function Note() {
   const { noteId } = useLocalSearchParams();
-  const [note, setNote] = useState<Note | null>(null);
+  const [note, setNote] = useState<NoteType | null>(null);
 
   useFocusEffect(
     useCallback(() => {
