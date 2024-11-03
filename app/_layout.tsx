@@ -48,9 +48,8 @@ export default function HomeLayout() {
           <Stack.Screen
             name="guests/[guestId]"
             options={{
-              presentation: 'modal',
+              headerBackTitleVisible: false,
               title: '',
-              animation: 'slide_from_bottom',
               headerTintColor: colors.text,
               headerStyle: {
                 backgroundColor: colors.background,
@@ -60,9 +59,8 @@ export default function HomeLayout() {
           <Stack.Screen
             name="notes/[noteId]"
             options={{
-              presentation: 'modal',
+              headerBackTitleVisible: false,
               title: '',
-              animation: 'slide_from_bottom',
               headerTintColor: colors.text,
               headerStyle: {
                 backgroundColor: colors.background,
