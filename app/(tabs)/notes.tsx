@@ -1,5 +1,5 @@
 import { Poppins_400Regular, useFonts } from '@expo-google-fonts/poppins';
-import { Redirect, useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import NoteItem from '../../components/NoteItem';
@@ -23,6 +23,9 @@ const styles = StyleSheet.create({
 
 export default function Notes() {
   const [notes, setNotes] = useState<Note[]>([]);
+
+  const router = useRouter();
+
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
   });
@@ -40,7 +43,7 @@ export default function Notes() {
         const body: UserResponseBodyGet = await response.json();
 
         if ('error' in body) {
-          return <Redirect href="/(auth)/login" />;
+          router.replace('/(auth)/login?returnTo=/notes');
         }
       }
 
@@ -66,7 +69,7 @@ export default function Notes() {
       getNotes().catch((error) => {
         console.error(error);
       });
-    }, [isStale]),
+    }, [isStale, router]),
   );
 
   if (!fontsLoaded) {
