@@ -2,7 +2,7 @@ import { Poppins_400Regular, useFonts } from '@expo-google-fonts/poppins';
 import { Redirect, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
-import NoteItem from '../../components/NotesItem';
+import NoteItem from '../../components/NoteItem';
 import { colors } from '../../constants/colors';
 import type { Note } from '../../migrations/00003-createTableNotes';
 import type { NotesResponseBodyGet } from '../api/notes/notes+api';
