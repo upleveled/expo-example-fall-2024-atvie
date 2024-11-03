@@ -5,7 +5,7 @@ import { FlatList, SafeAreaView, StyleSheet, Text } from 'react-native';
 import NoteItem from '../../components/NoteItem';
 import { colors } from '../../constants/colors';
 import type { Note } from '../../migrations/00003-createTableNotes';
-import type { NotesResponseBodyGet } from '../api/notes/notes+api';
+import type { NotesResponseBodyGet } from '../api/notes/index+api';
 import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({

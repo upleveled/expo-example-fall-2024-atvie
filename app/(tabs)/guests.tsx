@@ -5,7 +5,7 @@ import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import GuestItem from '../../components/GuestItem';
 import { colors } from '../../constants/colors';
 import type { Guest } from '../../migrations/00000-createTableGuests';
-import type { GuestsResponseBodyGet } from '../api/guests/guests+api';
+import type { GuestsResponseBodyGet } from '../api/guests/index+api';
 import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
@@ -46,7 +46,7 @@ export default function Guests() {
       }
 
       async function getGuests() {
-        const response = await fetch('/api/guests/guests');
+        const response = await fetch('/api/guests');
         const body: GuestsResponseBodyGet = await response.json();
 
         setGuests(body.guests);

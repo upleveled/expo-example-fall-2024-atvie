@@ -138,13 +138,11 @@ export default function Register() {
 
           if (!response.ok) {
             let errorMessage = 'Error creating user';
-            try {
-              const responseBody: RegisterResponseBodyPost =
-                await response.json();
-              if ('error' in responseBody) {
-                errorMessage = responseBody.error;
-              }
-            } catch {}
+            const responseBody: RegisterResponseBodyPost =
+              await response.json();
+            if ('error' in responseBody) {
+              errorMessage = responseBody.error;
+            }
 
             Alert.alert('Error', errorMessage, [{ text: 'OK' }]);
             return;

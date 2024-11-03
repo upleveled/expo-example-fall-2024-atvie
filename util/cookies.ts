@@ -8,11 +8,11 @@ export function createSerializedRegisterSessionTokenCookie(token: string) {
     // Set max age for older browsers
     expires: new Date(Date.now() + maxAge * 1000),
     // Set max age for modern browsers
-    maxAge: maxAge,
+    maxAge: maxAge, // Cookie expires in 24 hours
     // Use secure cookies in production (HTTPS only)
     secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: 'lax', // Prevent sending cookie with images or frames of your content originating on other websites
   });
 }
 

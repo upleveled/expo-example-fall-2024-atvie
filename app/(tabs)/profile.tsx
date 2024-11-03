@@ -60,12 +60,10 @@ export default function Profile() {
 
           if (!response.ok) {
             let errorMessage = 'Error logging out';
-            try {
-              const responseBody: LogoutResponseBodyGet = await response.json();
-              if ('error' in responseBody) {
-                errorMessage = responseBody.error;
-              }
-            } catch {}
+            const responseBody: LogoutResponseBodyGet = await response.json();
+            if ('error' in responseBody) {
+              errorMessage = responseBody.error;
+            }
 
             Alert.alert('Error', errorMessage, [{ text: 'OK' }]);
             return;

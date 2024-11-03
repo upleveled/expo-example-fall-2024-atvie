@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { GuestsResponseBodyPost } from '../api/guests/guests+api';
+import type { GuestsResponseBodyPost } from '../api/guests/index+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -100,7 +100,7 @@ export default function NewGuest() {
       <Pressable
         style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
         onPress={async () => {
-          const response = await fetch('/api/guests/guests', {
+          const response = await fetch('/api/guests', {
             method: 'POST',
             body: JSON.stringify({ firstName, lastName, attending: false }),
           });
