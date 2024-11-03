@@ -41,7 +41,7 @@ export default function Guests() {
         const body: UserResponseBodyGet = await response.json();
 
         if ('error' in body) {
-          router.replace('/(auth)/login?returnTo=/guests');
+          router.replace('/(auth)/login?returnTo=/(tabs)/guests');
         }
       }
 

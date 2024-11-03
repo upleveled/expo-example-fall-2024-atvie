@@ -97,7 +97,7 @@ export default function Login() {
           if (returnTo && typeof returnTo === 'string') {
             // Replace current route in the navigation stack with the new route
             // (prevents login screen appearing again with "go back" gesture)
-            router.replace(`/(tabs)${returnTo}` as Href);
+            router.replace(returnTo as Href);
           }
 
           router.replace('/(tabs)/guests');

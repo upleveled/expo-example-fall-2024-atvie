@@ -43,7 +43,7 @@ export default function Notes() {
         const body: UserResponseBodyGet = await response.json();
 
         if ('error' in body) {
-          router.replace('/(auth)/login?returnTo=/notes');
+          router.replace('/(auth)/login?returnTo=/(tabs)/notes');
         }
       }
 
