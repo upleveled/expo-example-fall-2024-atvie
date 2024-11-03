@@ -205,7 +205,7 @@ export default function GuestPage() {
               });
 
               setIsEditing(false);
-              router.replace('/');
+              router.replace('/(tabs)/guests');
             }}
           >
             <Text style={styles.buttonText}>Save</Text>
@@ -233,7 +233,7 @@ export default function GuestPage() {
                   }),
                 });
                 setIsEditing(false);
-                router.replace('/');
+                router.replace('/(tabs)/guests');
               }}
             />
           </View>
@@ -253,7 +253,7 @@ export default function GuestPage() {
                   method: 'DELETE',
                 });
                 setIsEditing(false);
-                router.replace('/');
+                router.replace('/(tabs)/guests');
               }}
             >
               <Ionicons name="trash-outline" size={36} color={colors.text} />
