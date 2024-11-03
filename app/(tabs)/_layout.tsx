@@ -53,7 +53,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) =>
             TabBarIcon({ name: focused ? 'list' : 'list-outline', color }),
           unmountOnBlur: true,
-          headerRight: () => HeaderRightGuests(),
+          headerRight: HeaderRightGuests,
         }}
       />
       <Tabs.Screen
@@ -66,7 +66,7 @@ export default function TabLayout() {
               color,
             }),
           unmountOnBlur: true,
-          headerRight: () => HeaderRightNotes(),
+          headerRight: HeaderRightNotes,
         }}
       />
       <Tabs.Screen
