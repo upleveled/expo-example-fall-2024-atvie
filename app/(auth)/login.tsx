@@ -169,7 +169,7 @@ export default function Login() {
 
           setUsername('');
           setPassword('');
-          router.push('/(tabs)/guests');
+          router.replace('/(tabs)/guests');
         }}
       >
         <Text style={styles.text}>Login</Text>

@@ -159,7 +159,7 @@ export default function Register() {
 
           setUsername('');
           setPassword('');
-          router.push('/(tabs)');
+          router.replace('/(tabs)/guests');
         }}
       >
         <Text style={styles.text}>Register</Text>
