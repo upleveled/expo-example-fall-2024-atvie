@@ -40,7 +40,7 @@ export default function Notes() {
         const body: UserResponseBodyGet = await response.json();
 
         if ('error' in body) {
-          return <Redirect href="/(auth)" />;
+          return <Redirect href="/(auth)/login" />;
         }
       }
 

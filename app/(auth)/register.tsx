@@ -123,7 +123,7 @@ export default function Register() {
         />
         <View style={styles.promptTextContainer}>
           <Text style={{ color: colors.text }}>Already have an account?</Text>
-          <Link href="/(auth)" style={{ color: colors.text }}>
+          <Link href="/(auth)/login" style={{ color: colors.text }}>
             Login
           </Link>
         </View>

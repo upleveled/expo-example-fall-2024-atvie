@@ -42,7 +42,7 @@ export default function Profile() {
 
         if ('error' in body) {
           Alert.alert('Error', body.error, [{ text: 'OK' }]);
-          return router.push('/(auth)');
+          return router.push('/(auth)/login');
         }
       }
       getUser().catch((error) => {
@@ -71,7 +71,7 @@ export default function Profile() {
             return;
           }
 
-          router.push('/(auth)');
+          router.push('/(auth)/login');
         }}
       >
         <Text style={styles.text}>Logout</Text>
