@@ -1,7 +1,7 @@
 import { Poppins_400Regular, useFonts } from '@expo-google-fonts/poppins';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text } from 'react-native';
 import NoteItem from '../../components/NoteItem';
 import { colors } from '../../constants/colors';
 import type { Note } from '../../migrations/00003-createTableNotes';
@@ -78,12 +78,16 @@ export default function Notes() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <FlatList
-        style={styles.list}
-        data={notes}
-        renderItem={renderItem}
-        keyExtractor={(item: Note) => String(item.id)}
-      />
+      {notes.length > 0 ? (
+        <FlatList
+          style={styles.list}
+          data={notes}
+          renderItem={renderItem}
+          keyExtractor={(item: Note) => String(item.id)}
+        />
+      ) : (
+        <Text style={styles.text}>No notes yet</Text>
+      )}
     </SafeAreaView>
   );
 }
