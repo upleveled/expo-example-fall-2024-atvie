@@ -37,32 +37,33 @@ export default function Notes() {
     useCallback(() => {
       if (!isStale) return;
 
-      async function getUser() {
-        const response = await fetch('/api/user');
-
-        const body: UserResponseBodyGet = await response.json();
-
-        if ('error' in body) {
-          router.replace('/(auth)/login?returnTo=/(tabs)/notes');
-        }
-      }
-
-      async function getNotes() {
-        const response = await fetch('/api/notes/notes');
-        const body: NotesResponseBodyGet = await response.json();
-
-        if ('error' in body) {
-          setNotes([]);
-        }
-
-        if ('notes' in body) {
-          setNotes(body.notes);
-        }
+      async function getUserAndNotes() {
+        const [userResponse, notesResponse]: [
+          UserResponseBodyGet,
+          NotesResponseBodyGet,
+        ] = await Promise.all([
+          fetch('/api/user').then((response) => response.json()),
+          fetch('/api/notes/notes').then((response) => response.json()),
+        ]);
 
         setIsStale(false);
+
+        if ('error' in userResponse) {
+          router.replace('/(auth)/login?returnTo=/(tabs)/notes');
+          return;
+        }
+
+        if ('error' in notesResponse) {
+          setNotes([]);
+          return;
+        }
+
+        if ('notes' in notesResponse) {
+          setNotes(notesResponse.notes);
+        }
       }
 
-      Promise.all([getUser(), getNotes()]).catch((error) => {
+      getUserAndNotes().catch((error) => {
         console.error(error);
       });
     }, [isStale, router]),
