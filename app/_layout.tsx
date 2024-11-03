@@ -43,7 +43,6 @@ export default function HomeLayout() {
             options={{ headerShown: false }}
             redirect
           />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
             name="guests/[guestId]"
