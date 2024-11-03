@@ -1,4 +1,4 @@
-import { type Href, Link, Tabs } from 'expo-router';
+import { Link, Tabs } from 'expo-router';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { TabBarIcon } from '../../components/TabBarIcon';
 import { colors } from '../../constants/colors';
@@ -9,13 +9,18 @@ const styles = StyleSheet.create({
   },
 });
 
-type Props = {
-  href: Href<string>;
-};
-
-function HeaderRight({ href }: Props) {
+function HeaderRightGuests() {
   return (
-    <Link href={href} asChild>
+    <Link href="/guests/newGuest" asChild>
+      <TouchableOpacity style={styles.headerRight}>
+        <TabBarIcon name="add" color={colors.text} />
+      </TouchableOpacity>
+    </Link>
+  );
+}
+function HeaderRightNotes() {
+  return (
+    <Link href="/notes/newNote" asChild>
       <TouchableOpacity style={styles.headerRight}>
         <TabBarIcon name="add" color={colors.text} />
       </TouchableOpacity>
@@ -24,8 +29,6 @@ function HeaderRight({ href }: Props) {
 }
 
 export default function TabLayout() {
-  const renderHeaderRight = (href: Href<string>) => <HeaderRight href={href} />;
-
   return (
     <Tabs
       screenOptions={{
@@ -50,7 +53,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) =>
             TabBarIcon({ name: focused ? 'list' : 'list-outline', color }),
           unmountOnBlur: true,
-          headerRight: () => renderHeaderRight('/guests/newGuest'),
+          headerRight: () => HeaderRightGuests(),
         }}
       />
       <Tabs.Screen
@@ -63,7 +66,7 @@ export default function TabLayout() {
               color,
             }),
           unmountOnBlur: true,
-          headerRight: () => renderHeaderRight('/notes/newNote'),
+          headerRight: () => HeaderRightNotes(),
         }}
       />
       <Tabs.Screen
