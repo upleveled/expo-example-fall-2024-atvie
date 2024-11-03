@@ -95,6 +95,9 @@ export default function Login() {
 
         if ('username' in responseBody) {
           if (returnTo && typeof returnTo === 'string') {
+            // router.replace removes the current route from the stack
+            // and replaces it with the new route
+            // This prevents the user from going back to the login screen
             router.replace(`/(tabs)${returnTo}` as Href);
           }
 
