@@ -123,35 +123,30 @@ export default function GuestPage() {
 
   useFocusEffect(
     useCallback(() => {
-      async function getUser() {
-        const response = await fetch('/api/user');
-
-        const body: UserResponseBodyGet = await response.json();
-
-        if ('error' in body) {
-          router.replace(`/(auth)/login?returnTo=/(tabs)/guests`);
-        }
-      }
-      getUser().catch((error) => {
-        console.error(error);
-      });
-
-      async function loadGuest() {
+      async function getUserAndLoadGuest() {
         if (typeof guestId !== 'string') {
           return;
         }
+        const [userResponse, guestResponse]: [
+          UserResponseBodyGet,
+          GuestResponseBodyGet,
+        ] = await Promise.all([
+          fetch('/api/user').then((response) => response.json()),
+          fetch(`/api/guests/${guestId}`).then((response) => response.json()),
+        ]);
 
-        const response = await fetch(`/api/guests/${guestId}`);
-        const responseBody: GuestResponseBodyGet = await response.json();
+        if ('error' in userResponse) {
+          router.replace(`/(auth)/login?returnTo=/guests/${guestId}`);
+        }
 
-        if ('guest' in responseBody) {
-          setFirstName(responseBody.guest.firstName);
-          setLastName(responseBody.guest.lastName);
-          setAttending(responseBody.guest.attending);
+        if ('guest' in guestResponse) {
+          setFirstName(guestResponse.guest.firstName);
+          setLastName(guestResponse.guest.lastName);
+          setAttending(guestResponse.guest.attending);
         }
       }
 
-      loadGuest().catch((error) => {
+      getUserAndLoadGuest().catch((error) => {
         console.error(error);
       });
     }, [guestId, router]),
