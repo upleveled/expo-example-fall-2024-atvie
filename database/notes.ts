@@ -36,6 +36,22 @@ export async function getNote(
   return note;
 }
 
+export async function selectNoteExists(noteId: Note['id']) {
+  const [record] = await sql<{ exists: boolean }[]>`
+    SELECT
+      EXISTS (
+        SELECT
+          TRUE
+        FROM
+          notes
+        WHERE
+          id = ${noteId}
+      )
+  `;
+
+  return Boolean(record?.exists);
+}
+
 export async function createNote(
   sessionToken: Session['token'],
   title: Note['title'],
