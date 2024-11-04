@@ -44,6 +44,7 @@ export default function Profile() {
 
         if ('error' in body) {
           router.replace('/(auth)/login?returnTo=/(tabs)/profile');
+          return;
         }
       }
       getUser().catch((error) => {
