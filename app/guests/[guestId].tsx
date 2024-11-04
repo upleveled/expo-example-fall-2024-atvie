@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
   Pressable,
@@ -13,6 +13,7 @@ import {
 import placeholder from '../../assets/candidate-default.avif';
 import { colors } from '../../constants/colors';
 import type { GuestResponseBodyGet } from '../api/guests/[guestId]+api';
+import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -115,11 +116,26 @@ export default function GuestPage() {
   const [attending, setAttending] = useState(false);
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
+  const router = useRouter();
+
   // Dynamic import of images
   // const imageContext = require.context('../../assets', false, /\.(avif)$/);
 
   useFocusEffect(
     useCallback(() => {
+      async function getUser() {
+        const response = await fetch('/api/user');
+
+        const body: UserResponseBodyGet = await response.json();
+
+        if ('error' in body) {
+          router.replace(`/(auth)/login?returnTo=/(tabs)/guests`);
+        }
+      }
+      getUser().catch((error) => {
+        console.error(error);
+      });
+
       async function loadGuest() {
         if (typeof guestId !== 'string') {
           return;
@@ -138,7 +154,7 @@ export default function GuestPage() {
       loadGuest().catch((error) => {
         console.error(error);
       });
-    }, [guestId]),
+    }, [guestId, router]),
   );
 
   if (typeof guestId !== 'string') {
