@@ -74,26 +74,14 @@ export default function Note() {
     );
   }
 
-  if (!note) {
+  if (note) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Access Denied</Text>
-        <Text style={styles.textContent}>
-          You do not have permission to access this note
-        </Text>
-        <Link href="/(tabs)/notes" style={{ color: colors.text }}>
-          Back to notes
-        </Link>
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{note.title}</Text>
+          <Text style={styles.textContent}>{note.textContent}</Text>
+        </View>
       </View>
     );
   }
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{note.title}</Text>
-        <Text style={styles.textContent}>{note.textContent}</Text>
-      </View>
-    </View>
-  );
 }
