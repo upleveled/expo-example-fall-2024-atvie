@@ -62,7 +62,7 @@ export default function Note() {
     }, [noteId]),
   );
 
-  if (errorMessage) {
+  if (errorMessage || !note) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Error loading note {noteId}</Text>
@@ -74,14 +74,12 @@ export default function Note() {
     );
   }
 
-  if (note) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{note.title}</Text>
-          <Text style={styles.textContent}>{note.textContent}</Text>
-        </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{note.title}</Text>
+        <Text style={styles.textContent}>{note.textContent}</Text>
       </View>
-    );
-  }
+    </View>
+  );
 }
