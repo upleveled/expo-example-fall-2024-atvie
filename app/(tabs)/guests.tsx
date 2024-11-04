@@ -40,32 +40,34 @@ export default function Guests() {
     useCallback(() => {
       if (!isStale) return;
 
-      async function getUser() {
-        const response = await fetch('/api/user');
+      async function getUserAndGuests() {
+        const [userResponse, guestsResponse]: [
+          UserResponseBodyGet,
+          GuestsResponseBodyGet,
+        ] = await Promise.all([
+          fetch('/api/user').then((response) => response.json()),
+          fetch('/api/guests').then((response) => response.json()),
+        ]);
 
-        const body: UserResponseBodyGet = await response.json();
-
-        if ('error' in body) {
-          router.replace('/(auth)/login?returnTo=/(tabs)/guests');
-        }
-      }
-
-      async function getGuests() {
-        const response = await fetch('/api/guests');
-        const body: GuestsResponseBodyGet = await response.json();
-
-        setGuests(body.guests);
         setIsStale(false);
+
+        if ('error' in userResponse) {
+          router.replace('/(auth)/login?returnTo=/(tabs)/guests');
+          return;
+        }
+
+        if ('error' in guestsResponse) {
+          setGuests([]);
+          return;
+        }
+
+        setGuests(guestsResponse.guests);
       }
 
-      getUser().catch((error) => {
+      getUserAndGuests().catch((error) => {
         console.error(error);
       });
-
-      getGuests().catch((error) => {
-        console.error(error);
-      });
-    }, [router, isStale]),
+    }, [isStale, router]),
   );
 
   if (!fontsLoaded) {
