@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
 
 export default function Note() {
   const { noteId } = useLocalSearchParams();
-  const [note, setNote] = useState<NoteType | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [note, setNote] = useState<NoteType>();
 
   useFocusEffect(
     useCallback(() => {
@@ -46,9 +47,13 @@ export default function Note() {
         const response = await fetch(`/api/notes/${noteId}`);
         const responseBody: NoteResponseBodyGet = await response.json();
 
-        if ('note' in responseBody) {
-          setNote(responseBody.note);
+        if ('error' in responseBody) {
+          setErrorMessage(responseBody.error);
+          return;
         }
+
+        setNote(responseBody.note);
+        setErrorMessage(null);
       }
 
       loadNote().catch((error) => {
@@ -57,17 +62,11 @@ export default function Note() {
     }, [noteId]),
   );
 
-  if (typeof noteId !== 'string') {
-    return null;
-  }
-
-  if (!note) {
+  if (errorMessage) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Access Denied</Text>
-        <Text style={styles.textContent}>
-          You do not have permission to access this note
-        </Text>
+        <Text style={styles.title}>Error loading note {noteId}</Text>
+        <Text style={styles.textContent}>{errorMessage}</Text>
         <Link href="/(tabs)/notes" style={{ color: colors.text }}>
           Back to notes
         </Link>
@@ -78,8 +77,8 @@ export default function Note() {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{note.title}</Text>
-        <Text style={styles.textContent}>{note.textContent}</Text>
+        <Text style={styles.title}>{note?.title}</Text>
+        <Text style={styles.textContent}>{note?.textContent}</Text>
       </View>
     </View>
   );

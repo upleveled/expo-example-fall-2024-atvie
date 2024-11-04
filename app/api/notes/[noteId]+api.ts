@@ -1,5 +1,5 @@
 import { parse } from 'cookie';
-import { getNote } from '../../../database/notes';
+import { getNote, selectNoteExists } from '../../../database/notes';
 import { ExpoApiResponse } from '../../../ExpoApiResponse';
 import type { Note } from '../../../migrations/00003-createTableNotes';
 
@@ -30,15 +30,29 @@ export async function GET(
       },
     );
   }
-  const note = await getNote(token, Number(noteId));
 
-  if (!note) {
+  const noteExists = await selectNoteExists(Number(noteId));
+
+  if (!noteExists) {
     return ExpoApiResponse.json(
       {
         error: `No note with id ${noteId} found`,
       },
       {
         status: 404,
+      },
+    );
+  }
+
+  const note = await getNote(token, Number(noteId));
+
+  if (!note) {
+    return ExpoApiResponse.json(
+      {
+        error: `Access denied to note with id ${noteId}`,
+      },
+      {
+        status: 403,
       },
     );
   }
