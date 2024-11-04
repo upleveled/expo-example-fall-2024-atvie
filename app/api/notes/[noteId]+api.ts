@@ -31,9 +31,7 @@ export async function GET(
     );
   }
 
-  const noteExists = await selectNoteExists(Number(noteId));
-
-  if (!noteExists) {
+  if (!(await selectNoteExists(Number(noteId)))) {
     return ExpoApiResponse.json(
       {
         error: `No note with id ${noteId} found`,
