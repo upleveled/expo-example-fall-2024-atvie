@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { colors } from '../../constants/colors';
-import type { GuestsResponseBodyPost } from '../api/guests+api';
+import type { GuestsResponseBodyPost } from '../api/guests/index+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,63 +66,65 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function NewGuest() {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+export default function NewNote() {
+  const [title, setTitle] = useState('');
+  const [textContent, setTextContent] = useState('');
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.addGuestContainer}>
-        <Text style={styles.label}>First Name</Text>
+        <Text style={styles.label}>Title</Text>
         <TextInput
           style={[
             styles.input,
-            focusedInput === 'firstName' && styles.inputFocused,
+            focusedInput === 'title' && styles.inputFocused,
           ]}
-          value={firstName}
-          onChangeText={setFirstName}
-          onFocus={() => setFocusedInput('firstName')}
+          value={title}
+          onChangeText={setTitle}
+          onFocus={() => setFocusedInput('title')}
           onBlur={() => setFocusedInput(undefined)}
         />
-        <Text style={styles.label}>Last Name</Text>
+        <Text style={styles.label}>Text</Text>
         <TextInput
           style={[
             styles.input,
-            focusedInput === 'lastName' && styles.inputFocused,
+            focusedInput === 'textContent' && styles.inputFocused,
           ]}
-          value={lastName}
-          onChangeText={setLastName}
-          onFocus={() => setFocusedInput('lastName')}
+          numberOfLines={4}
+          multiline={true}
+          value={textContent}
+          onChangeText={setTextContent}
+          onFocus={() => setFocusedInput('textContent')}
           onBlur={() => setFocusedInput(undefined)}
         />
       </View>
       <Pressable
         style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
         onPress={async () => {
-          const response = await fetch('/api/guests', {
+          const response = await fetch('/api/notes', {
             method: 'POST',
-            body: JSON.stringify({ firstName, lastName, attending: false }),
+            body: JSON.stringify({ title, textContent }),
           });
 
           if (!response.ok) {
             let errorMessage = 'Error creating guest';
-            const body: GuestsResponseBodyPost = await response.json();
+            const responseBody: GuestsResponseBodyPost = await response.json();
 
-            if ('error' in body) {
-              errorMessage = body.error;
+            if ('error' in responseBody) {
+              errorMessage = responseBody.error;
             }
 
             Alert.alert('Error', errorMessage, [{ text: 'OK' }]);
             return;
           }
 
-          setFirstName('');
-          setLastName('');
-          router.push('/');
+          setTitle('');
+          setTextContent('');
+          router.replace('/(tabs)/notes');
         }}
       >
-        <Text style={styles.text}>Add Guest</Text>
+        <Text style={styles.text}>Add Note</Text>
       </Pressable>
     </SafeAreaView>
   );

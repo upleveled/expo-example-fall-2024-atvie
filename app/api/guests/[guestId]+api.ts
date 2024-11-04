@@ -2,12 +2,12 @@ import {
   deleteGuestInsecure,
   getGuestInsecure,
   updateGuestInsecure,
-} from '../../database/guests';
-import { ExpoApiResponse } from '../../ExpoApiResponse';
+} from '../../../database/guests';
+import { ExpoApiResponse } from '../../../ExpoApiResponse';
 import {
   type Guest,
   guestsSchema,
-} from '../../migrations/00000-createTableGuests';
+} from '../../../migrations/00000-createTableGuests';
 
 export type GuestResponseBodyGet =
   | {

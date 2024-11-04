@@ -94,7 +94,7 @@ export default function GuestItem({ guest, setIsStale }: Props) {
             <Switch
               value={attending}
               onValueChange={async () => {
-                await fetch(`/api/${id}`, {
+                await fetch(`/api/guests/${id}`, {
                   method: 'PUT',
                   body: JSON.stringify({
                     firstName,
@@ -111,7 +111,7 @@ export default function GuestItem({ guest, setIsStale }: Props) {
             <TouchableOpacity
               style={styles.button}
               onPress={async () => {
-                await fetch(`/api/${id}`, {
+                await fetch(`/api/guests/${id}`, {
                   method: 'DELETE',
                 });
 

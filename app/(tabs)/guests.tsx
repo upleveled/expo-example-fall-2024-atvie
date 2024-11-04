@@ -1,11 +1,12 @@
 import { Poppins_400Regular, useFonts } from '@expo-google-fonts/poppins';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import GuestItem from '../../components/GuestItem';
 import { colors } from '../../constants/colors';
 import type { Guest } from '../../migrations/00000-createTableGuests';
-import type { GuestsResponseBodyGet } from '../api/guests+api';
+import type { GuestsResponseBodyGet } from '../api/guests/index+api';
+import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,12 +21,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function App() {
+export default function Guests() {
   const [guests, setGuests] = useState<Guest[]>([]);
+  const [isStale, setIsStale] = useState(true);
   const [fontsLoaded] = useFonts({
     Poppins_400Regular,
   });
-  const [isStale, setIsStale] = useState(true);
+
+  const router = useRouter();
 
   // const renderItem = (item: { item: User }) => <UserItem user={item.item} />;
 
@@ -37,22 +40,32 @@ export default function App() {
     useCallback(() => {
       if (!isStale) return;
 
+      async function getUser() {
+        const response = await fetch('/api/user');
+
+        const body: UserResponseBodyGet = await response.json();
+
+        if ('error' in body) {
+          router.replace('/(auth)/login?returnTo=/(tabs)/guests');
+        }
+      }
+
       async function getGuests() {
-        const response = await fetch('/api/guests', {
-          headers: {
-            Cookie: 'name=value',
-          },
-        });
+        const response = await fetch('/api/guests');
         const body: GuestsResponseBodyGet = await response.json();
 
         setGuests(body.guests);
         setIsStale(false);
       }
 
+      getUser().catch((error) => {
+        console.error(error);
+      });
+
       getGuests().catch((error) => {
         console.error(error);
       });
-    }, [isStale]),
+    }, [router, isStale]),
   );
 
   if (!fontsLoaded) {

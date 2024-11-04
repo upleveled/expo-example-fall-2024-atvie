@@ -38,9 +38,49 @@ export default function HomeLayout() {
       <StatusBar style="light" />
       <View style={styles.view}>
         <Stack>
+          <Stack.Screen
+            name="index"
+            options={{ headerShown: false }}
+            redirect
+          />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen
             name="guests/[guestId]"
+            options={{
+              headerBackTitleVisible: false,
+              title: '',
+              headerTintColor: colors.text,
+              headerStyle: {
+                backgroundColor: colors.background,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="notes/[noteId]"
+            options={{
+              headerBackTitleVisible: false,
+              title: '',
+              headerTintColor: colors.text,
+              headerStyle: {
+                backgroundColor: colors.background,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="guests/newGuest"
+            options={{
+              presentation: 'modal',
+              title: '',
+              animation: 'slide_from_bottom',
+              headerTintColor: colors.text,
+              headerStyle: {
+                backgroundColor: colors.background,
+              },
+            }}
+          />
+          <Stack.Screen
+            name="notes/newNote"
             options={{
               presentation: 'modal',
               title: '',
