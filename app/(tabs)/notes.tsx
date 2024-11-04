@@ -43,7 +43,7 @@ export default function Notes() {
           NotesResponseBodyGet,
         ] = await Promise.all([
           fetch('/api/user').then((response) => response.json()),
-          fetch('/api/notes/notes').then((response) => response.json()),
+          fetch('/api/notes').then((response) => response.json()),
         ]);
 
         setIsStale(false);
