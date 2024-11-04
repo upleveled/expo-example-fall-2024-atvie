@@ -1,9 +1,15 @@
-import { Link, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import {
+  Link,
+  useFocusEffect,
+  useLocalSearchParams,
+  useRouter,
+} from 'expo-router';
 import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../constants/colors';
 import type { Note as NoteType } from '../../migrations/00003-createTableNotes';
 import type { NoteResponseBodyGet } from '../api/notes/[noteId]+api';
+import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,25 +42,36 @@ export default function Note() {
   const { noteId } = useLocalSearchParams();
   const [note, setNote] = useState<NoteType | null>(null);
 
+  const router = useRouter();
+
   useFocusEffect(
     useCallback(() => {
-      async function loadNote() {
+      async function getUserAndLoadNote() {
         if (typeof noteId !== 'string') {
           return;
         }
 
-        const response = await fetch(`/api/notes/${noteId}`);
-        const responseBody: NoteResponseBodyGet = await response.json();
+        const [userResponse, noteResponse]: [
+          UserResponseBodyGet,
+          NoteResponseBodyGet,
+        ] = await Promise.all([
+          fetch('/api/user').then((response) => response.json()),
+          fetch(`/api/notes/${noteId}`).then((response) => response.json()),
+        ]);
 
-        if ('note' in responseBody) {
-          setNote(responseBody.note);
+        if ('error' in userResponse) {
+          router.replace(`/(auth)/login?returnTo=/notes/${noteId}`);
+        }
+
+        if ('note' in noteResponse) {
+          setNote(noteResponse.note);
         }
       }
 
-      loadNote().catch((error) => {
+      getUserAndLoadNote().catch((error) => {
         console.error(error);
       });
-    }, [noteId]),
+    }, [noteId, router]),
   );
 
   if (typeof noteId !== 'string') {

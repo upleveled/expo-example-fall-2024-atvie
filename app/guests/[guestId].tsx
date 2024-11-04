@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import {
   Pressable,
@@ -13,6 +13,7 @@ import {
 import placeholder from '../../assets/candidate-default.avif';
 import { colors } from '../../constants/colors';
 import type { GuestResponseBodyGet } from '../api/guests/[guestId]+api';
+import type { UserResponseBodyGet } from '../api/user+api';
 
 const styles = StyleSheet.create({
   container: {
@@ -115,30 +116,40 @@ export default function GuestPage() {
   const [attending, setAttending] = useState(false);
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
+  const router = useRouter();
+
   // Dynamic import of images
   // const imageContext = require.context('../../assets', false, /\.(avif)$/);
 
   useFocusEffect(
     useCallback(() => {
-      async function loadGuest() {
+      async function getUserAndLoadGuest() {
         if (typeof guestId !== 'string') {
           return;
         }
+        const [userResponse, guestResponse]: [
+          UserResponseBodyGet,
+          GuestResponseBodyGet,
+        ] = await Promise.all([
+          fetch('/api/user').then((response) => response.json()),
+          fetch(`/api/guests/${guestId}`).then((response) => response.json()),
+        ]);
 
-        const response = await fetch(`/api/guests/${guestId}`);
-        const responseBody: GuestResponseBodyGet = await response.json();
+        if ('error' in userResponse) {
+          router.replace(`/(auth)/login?returnTo=/guests/${guestId}`);
+        }
 
-        if ('guest' in responseBody) {
-          setFirstName(responseBody.guest.firstName);
-          setLastName(responseBody.guest.lastName);
-          setAttending(responseBody.guest.attending);
+        if ('guest' in guestResponse) {
+          setFirstName(guestResponse.guest.firstName);
+          setLastName(guestResponse.guest.lastName);
+          setAttending(guestResponse.guest.attending);
         }
       }
 
-      loadGuest().catch((error) => {
+      getUserAndLoadGuest().catch((error) => {
         console.error(error);
       });
-    }, [guestId]),
+    }, [guestId, router]),
   );
 
   if (typeof guestId !== 'string') {

@@ -1,4 +1,4 @@
-import { router, useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback } from 'react';
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native';
 import type { LogoutResponseBodyGet } from '../(auth)/api/logout+api';
@@ -33,6 +33,8 @@ const styles = StyleSheet.create({
 });
 
 export default function Profile() {
+  const router = useRouter();
+
   useFocusEffect(
     useCallback(() => {
       async function getUser() {
@@ -41,14 +43,14 @@ export default function Profile() {
         const body: UserResponseBodyGet = await response.json();
 
         if ('error' in body) {
-          Alert.alert('Error', body.error, [{ text: 'OK' }]);
-          return router.push('/(auth)/login');
+          router.replace('/(auth)/login?returnTo=/(tabs)/profile');
+          return;
         }
       }
       getUser().catch((error) => {
         console.error(error);
       });
-    }, []),
+    }, [router]),
   );
 
   return (
