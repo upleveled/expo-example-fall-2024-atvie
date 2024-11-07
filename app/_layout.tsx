@@ -5,7 +5,6 @@ import {
 } from '@expo-google-fonts/poppins';
 import Constants from 'expo-constants';
 import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import { Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { colors } from '../constants/colors';
 
@@ -35,7 +34,6 @@ export default function HomeLayout() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       <View style={styles.view}>
         <Stack>
           <Stack.Screen
