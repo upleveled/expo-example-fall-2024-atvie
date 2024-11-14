@@ -11,6 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "platforms": ["ios", "android"],
     "scheme": "expo-example-fall-2024-atvie",
     "ios": {
       "supportsTablet": true
