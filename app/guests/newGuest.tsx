@@ -9,8 +9,21 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import * as yup from 'yup';
 import { colors } from '../../constants/colors';
+import { validateToFieldErrors } from '../../util/validateToFieldErrors';
 import type { GuestsResponseBodyPost } from '../api/guests/index+api';
+
+const guestSchema = yup.object({
+  firstName: yup
+    .string()
+    .min(1, 'First name is required')
+    .max(30, 'First name must be less than 30 characters'),
+  lastName: yup
+    .string()
+    .min(1, 'Last name is required')
+    .max(30, 'Last name must be less than 30 characters'),
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -46,6 +59,14 @@ const styles = StyleSheet.create({
   inputFocused: {
     borderColor: colors.white,
   },
+  inputError: {
+    borderColor: 'red',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 8,
+  },
   button: {
     marginTop: 30,
     backgroundColor: colors.text,
@@ -69,6 +90,7 @@ const styles = StyleSheet.create({
 export default function NewGuest() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
   return (
@@ -79,27 +101,51 @@ export default function NewGuest() {
           style={[
             styles.input,
             focusedInput === 'firstName' && styles.inputFocused,
+            fieldErrors.firstName && styles.inputError,
           ]}
           value={firstName}
           onChangeText={setFirstName}
           onFocus={() => setFocusedInput('firstName')}
           onBlur={() => setFocusedInput(undefined)}
         />
+        {fieldErrors.firstName && (
+          <Text style={styles.errorText}>{fieldErrors.firstName}</Text>
+        )}
+
         <Text style={styles.label}>Last Name</Text>
         <TextInput
           style={[
             styles.input,
             focusedInput === 'lastName' && styles.inputFocused,
+            fieldErrors.lastName && styles.inputError,
           ]}
           value={lastName}
           onChangeText={setLastName}
           onFocus={() => setFocusedInput('lastName')}
           onBlur={() => setFocusedInput(undefined)}
         />
+        {fieldErrors.lastName && (
+          <Text style={styles.errorText}>{fieldErrors.lastName}</Text>
+        )}
       </View>
+
       <Pressable
         style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
         onPress={async () => {
+          const validationResult = await validateToFieldErrors(guestSchema, {
+            firstName,
+            lastName,
+          });
+
+          if ('fieldErrors' in validationResult) {
+            const errors = Object.fromEntries(validationResult.fieldErrors);
+            setFieldErrors(errors);
+            return;
+          }
+
+          // Clear errors if validation passes
+          setFieldErrors({});
+
           const response = await fetch('/api/guests', {
             method: 'POST',
             body: JSON.stringify({ firstName, lastName, attending: false }),

@@ -15,9 +15,22 @@ import {
   TextInput,
   View,
 } from 'react-native';
+import * as yup from 'yup';
 import { colors } from '../../constants/colors';
+import { validateToFieldErrors } from '../../util/validateToFieldErrors';
 import type { UserResponseBodyGet } from '../api/user+api';
 import type { LoginResponseBodyPost } from './api/login+api';
+
+const loginSchema = yup.object({
+  username: yup
+    .string()
+    .min(3, 'Username must be at least 3 characters')
+    .required('Username is required'),
+  password: yup
+    .string()
+    .min(3, 'Password must be at least 3 characters')
+    .required('Password is required'),
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -59,6 +72,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  inputError: {
+    borderColor: 'red',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginBottom: 8,
+  },
   button: {
     marginTop: 30,
     backgroundColor: colors.text,
@@ -82,6 +103,7 @@ const styles = StyleSheet.create({
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [focusedInput, setFocusedInput] = useState<string | undefined>();
 
   const { returnTo } = useLocalSearchParams<{ returnTo: string }>();
@@ -118,17 +140,23 @@ export default function Login() {
           style={[
             styles.input,
             focusedInput === 'username' && styles.inputFocused,
+            fieldErrors.username && styles.inputError,
           ]}
           value={username}
           onChangeText={setUsername}
           onFocus={() => setFocusedInput('username')}
           onBlur={() => setFocusedInput(undefined)}
         />
+        {fieldErrors.username && (
+          <Text style={styles.errorText}>{fieldErrors.username}</Text>
+        )}
+
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={[
             styles.input,
             focusedInput === 'password' && styles.inputFocused,
+            fieldErrors.password && styles.inputError,
           ]}
           secureTextEntry
           value={password}
@@ -136,6 +164,9 @@ export default function Login() {
           onFocus={() => setFocusedInput('password')}
           onBlur={() => setFocusedInput(undefined)}
         />
+        {fieldErrors.password && (
+          <Text style={styles.errorText}>{fieldErrors.password}</Text>
+        )}
         <View style={styles.promptTextContainer}>
           <Text style={{ color: colors.text }}>Don't have an account?</Text>
           <Link href="/register" style={{ color: colors.text }}>
@@ -146,6 +177,20 @@ export default function Login() {
       <Pressable
         style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
         onPress={async () => {
+          const validationResult = await validateToFieldErrors(loginSchema, {
+            username,
+            password,
+          });
+
+          if ('fieldErrors' in validationResult) {
+            const errors = Object.fromEntries(validationResult.fieldErrors);
+            setFieldErrors(errors);
+            return;
+          }
+
+          // Clear errors if validation passes
+          setFieldErrors({});
+
           const response = await fetch('/api/login', {
             method: 'POST',
             body: JSON.stringify({ username, password, attending: false }),

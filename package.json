@@ -32,6 +32,7 @@
     "react-native": "0.75.2",
     "react-native-web": "^0.19.13",
     "tsx": "^4.19.1",
+    "yup": "^1.4.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
