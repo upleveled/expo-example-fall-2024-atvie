@@ -150,7 +150,6 @@ export default function Login() {
         {fieldErrors.username && (
           <Text style={styles.errorText}>{fieldErrors.username}</Text>
         )}
-
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={[

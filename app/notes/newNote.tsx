@@ -108,7 +108,6 @@ export default function NewNote() {
         {fieldErrors.title && (
           <Text style={styles.errorText}>{fieldErrors.title}</Text>
         )}
-
         <Text style={styles.label}>Text</Text>
         <TextInput
           style={[
@@ -127,7 +126,6 @@ export default function NewNote() {
           <Text style={styles.errorText}>{fieldErrors.textContent}</Text>
         )}
       </View>
-
       <Pressable
         style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
         onPress={async () => {

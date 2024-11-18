@@ -111,7 +111,6 @@ export default function NewGuest() {
         {fieldErrors.firstName && (
           <Text style={styles.errorText}>{fieldErrors.firstName}</Text>
         )}
-
         <Text style={styles.label}>Last Name</Text>
         <TextInput
           style={[
@@ -128,7 +127,6 @@ export default function NewGuest() {
           <Text style={styles.errorText}>{fieldErrors.lastName}</Text>
         )}
       </View>
-
       <Pressable
         style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
         onPress={async () => {

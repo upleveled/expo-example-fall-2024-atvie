@@ -135,7 +135,6 @@ export default function Register() {
         {fieldErrors.username && (
           <Text style={styles.errorText}>{fieldErrors.username}</Text>
         )}
-
         <Text style={styles.label}>Password</Text>
         <TextInput
           style={[
@@ -152,7 +151,6 @@ export default function Register() {
         {fieldErrors.password && (
           <Text style={styles.errorText}>{fieldErrors.password}</Text>
         )}
-
         <View style={styles.promptTextContainer}>
           <Text style={{ color: colors.text }}>Already have an account?</Text>
           <Link href="/(auth)/login" style={{ color: colors.text }}>
@@ -160,7 +158,6 @@ export default function Register() {
           </Link>
         </View>
       </View>
-
       <Pressable
         style={({ pressed }) => [styles.button, { opacity: pressed ? 0.5 : 1 }]}
         onPress={async () => {
